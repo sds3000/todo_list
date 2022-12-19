@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS task;
 
 CREATE TABLE task(
-    id SERIAL,
+    id SERIAL PRIMARY KEY NOT NULL,
     name TEXT,
     description TEXT,
     list_id INTEGER
@@ -17,13 +17,15 @@ CREATE TABLE task(
 --     user_id INTEGER
 -- );
 
-DROP TABLE IF EXISTS list;
+-- DROP TABLE IF EXISTS list;
 
-CREATE TABLE list(
-    id SERIAL PRIMARY KEY NOT NULL,
-    name TEXT
+-- CREATE TABLE list(
+--     id SERIAL PRIMARY KEY NOT NULL,
+--     name TEXT
     
-);
+-- );
 
-INSERT INTO list(name) VALUES('Morning routine');
+INSERT INTO task(name) VALUES('Go Shopping');
+INSERT INTO task(name) VALUES('Pay Bills');
+INSERT INTO task(name) VALuES('See the Doctor')
 INSERT INTO task(name, description) VALUES('take dogs out', 'take out dogs')

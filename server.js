@@ -1,3 +1,4 @@
+
 import express from 'express'
 import postgres from 'postgres'
 import dotenv from 'dotenv'
@@ -5,34 +6,48 @@ import cors from 'cors'
 
 dotenv.config()
 
-let app = express(), sql = postgres({database: 'todo_list'});
-let port = process.env.PORT
+let app = express();
+let sql = postgres({database: 'todo_list'});
+let port = process.env.PORT;
 
 // middleware ============================
 
 app.use(express.json());
-app.use(cors())
-app.use('./views', express.static("./views"));
+app.use(cors()) // cross browser stuff
+app.use(express.static("./views")); // looking for html file(serve it to port), 
 
 
 // get routes ===========================
 
-app.get('/', (req, res) => {
-    res.render('./view/index.html')
-})
 
-app.get('/test', (req, res) => {
-    sql`SELECT * FROM list`.then((result) => {
-        console.log(result)
-    })
-})
+// delete routes =================================
+app.delete('/deletedTask', (req, res) => {
+
+    let task = req.body;
+    let {name} = task
+    sql`DELETE FROM task WHERE name = ${name} RETURNING *`.then((result) => {
+        res.json(result)
+    });
+});// done
 
 // post routes ==========================
 
-app.post('/', (req, res) => {
-    sql`INSERT INTO list(task, summary, category) VALUES('lift weights', 'go pick heavy things up and put them back down', 'fitness')`
-        sql`SELECT * FROM list`.then(result => { console.log(result)})
+app.post('/task', (req, res) => {
+    let task = req.body; // how to get req.body to = new-task
+    let {name} = task
+    sql`INSERT INTO task(name) VALUES(${name}) RETURNING *`.then((result) => {
+        res.send(result[0]) 
+    })
     
+})
+
+// put route ===============
+app.put('/editedtask', (req, res) => { //need to hit edit button 2 times
+    let task = req.body;
+    let {name, edit} = task
+    sql`UPDATE task SET name = ${edit} WHERE name = ${name} RETURNING *`.then(result => {
+        res.send(result)
+    })
 })
 
 // listener ==============================
