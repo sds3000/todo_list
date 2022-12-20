@@ -28,4 +28,4 @@ CREATE TABLE task(
 INSERT INTO task(name) VALUES('Go Shopping');
 INSERT INTO task(name) VALUES('Pay Bills');
 INSERT INTO task(name) VALuES('See the Doctor')
-INSERT INTO task(name, description) VALUES('take dogs out', 'take out dogs')
+

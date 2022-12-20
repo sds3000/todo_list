@@ -39,11 +39,10 @@ let createNewTaskElement=function(taskString){
 
 
 
-let addTask = () => { // attach function to post route
+let addTask = function(){ // attach function to post route
     console.log("Add Task...");
     //Create a new list item with the text from the #new-task:
     fetch('/task', {
-        
         method: 'POST',
         body: JSON.stringify({name:taskInput.value}), //sets the body of the req
         headers: {'Content-Type': 'application/json'} // need to set content type 

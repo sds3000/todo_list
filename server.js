@@ -4,10 +4,10 @@ import postgres from 'postgres'
 import dotenv from 'dotenv'
 import cors from 'cors'
 
-dotenv.config()
+dotenv.config() // applies enviornment variables from .env file
 
 let app = express();
-let sql = postgres({database: 'todo_list'});
+let sql = postgres(process.env.DATABASE_URL);
 let port = process.env.PORT;
 
 // middleware ============================
