@@ -18,17 +18,18 @@ app.use(express.static("./views")); // looking for html file(serve it to port),
 
 
 // get routes ===========================
-
+app.get('/first', (req, res) => {
+    sql`SELECT * FROM task`.then(result => res.json(result))
+})
 
 // delete routes =================================
 app.delete('/deletedTask', (req, res) => {
-
     let task = req.body;
     let {name} = task
     sql`DELETE FROM task WHERE name = ${name} RETURNING *`.then((result) => {
         res.json(result)
     });
-});// done
+});
 
 // post routes ==========================
 

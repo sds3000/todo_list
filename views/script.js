@@ -1,10 +1,29 @@
 
-
 let taskInput=document.getElementById("new-task");//Add a new task.
 let addButton=document.querySelector("#add");//first button
 let incompleteTasks=document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
 let completedTasks=document.getElementById("completed-tasks");//completed-tasks
 
+fetch('/first', {
+    method: 'GET'
+}).then(res => res.json()).then(data => {
+    for(let i = 0; i < data.length;i++){
+        console.log(data[i].name)
+        incompleteTasks.appendChild(createNewTaskElement(data[i].name))
+    }
+    
+    
+    for (let i=0; i<incompleteTasks.children.length;i++){
+        console.log('hi')
+        
+        bindTask(incompleteTasks.children[i],completed);
+    }
+    
+    for (let i=0; i<completedTasks.children.length;i++){
+    
+        bindTask(completedTasks.children[i],incompleted);
+    }
+})
 
 //New task list item
 let createNewTaskElement=function(taskString){
@@ -91,17 +110,19 @@ let editTask = function(){ // need to press edit button 2 times for some reason
 
 
 
-//    something to do with id
+
 //Delete task.
 let deleteTask=function(){ // app.delete route
     console.log(this);
+    
     let listItem=this.parentNode; 
     let ul=listItem.parentNode; 
     let label = listItem.querySelector('label')
     console.log(listItem.querySelector('label'))
+    console.log(label.value)
     fetch('/deletedTask', {
         method: 'DELETE',
-        body: JSON.stringify({name: label}), //sets the body of the req
+        body: JSON.stringify({name: label.innerText}), //sets the body of the req
         headers: {'Content-Type': 'application/json'} 
     }).then( res => res.json()).then((data) => {
         
@@ -119,7 +140,6 @@ let completed=function(){
     //Append the task list item to the #completed-tasks
     let listItem=this.parentNode;
     completedTasks.appendChild(listItem);
-    bindTask(listItem, incompleted);
 
 }
 
@@ -130,7 +150,6 @@ let incompleted=function(){
         //Append the task list item to the #incomplete-tasks.
     let listItem = this.parentNode;
     incompleteTasks.appendChild(listItem);
-    bindTask(listItem,completed);
 }
 
 
@@ -141,6 +160,7 @@ let incompleted=function(){
 //Set the click handler to the addTask function.
 addButton.onclick=addTask;
 // addButton.addEventListener("click",addTask);
+
 
 
 
@@ -156,7 +176,7 @@ let bindTask=function(taskLI,checkBoxEvent){
     editButton.onclick = editTask;
 //Bind deleteTask to delete button.
     deleteButton.onclick = deleteTask;
-//  when checked go to completed
+
     checkBox.onchange = checkBoxEvent;
 }
 
@@ -167,10 +187,11 @@ for (let i=0; i<incompleteTasks.children.length;i++){
     bindTask(incompleteTasks.children[i],completed);
 }
 
-for (let i=0; i<completedTasks.children.length;i++){
+// for (let i=0; i<completedTasks.children.length;i++){
 
-    bindTask(completedTasks.children[i],incompleted);
-}
+//     bindTask(completedTasks.children[i],incompleted);
+// }
+
 
 
 /**
