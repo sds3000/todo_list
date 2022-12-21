@@ -1,4 +1,3 @@
-
 let taskInput=document.getElementById("new-task");//Add a new task.
 let descInput=document.getElementById("description");
 let addButton=document.querySelector("#add");//first button
@@ -11,7 +10,6 @@ fetch("/first", { // Loads database tasks on start
     for(let i = 0; i < data.length;i++){
         incompleteTasks.appendChild(createNewTaskElement(data[i].name, data[i].description));
     };
-
 });
 
 //New task list item
@@ -32,7 +30,7 @@ let createNewTaskElement=function(taskName, taskDesc){
     checkBox.type="checkbox";
     editInput.type="text";
 
-    editBttn.innerText="Edit";//innerText encodes special characters, HTML does not.
+    editBttn.innerText="Edit";
     editBttn.className="edit";
     deleteBttn.innerText="Delete";
     deleteBttn.className="delete";
@@ -65,8 +63,6 @@ let addTask = function(){ // attach function to post route
 
 }
 
-
-
 let editTask = function(){ 
 
     let listItem=this.parentNode;
@@ -77,7 +73,7 @@ let editTask = function(){
         method: "PUT",
         body: JSON.stringify({name:label.innerText, edit:editInput.value}), //sets the body of the req
         headers: {"Content-Type": "application/json"} 
-    }).then(res => res.json()).then((data) => {})
+    }).then(res => res.json()).then((data) => {});
     let editMode = listItem.classList.contains("editMode")
     if(editMode){
             label.innerText=editInput.value;
@@ -86,9 +82,6 @@ let editTask = function(){
         }
     listItem.classList.toggle("editMode");
 }
-
-
-
 
 //Delete task.
 let deleteTask=function(){ 
@@ -136,7 +129,7 @@ let bindTask=function(taskLI,checkBoxEvent){
     checkBox.onchange=checkBoxEvent;
 }
 
-// Runs when loading the page to bind checkboxes that are already there
+// Runs when loading the page to bind checkboxes from database
 for (let i=0; i<incompleteTasks.children.length;i++){
     
     bindTask(incompleteTasks.children[i],completed);
