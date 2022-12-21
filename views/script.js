@@ -10,6 +10,14 @@ fetch("/first", { // Loads database tasks on start
     for(let i = 0; i < data.length;i++){
         incompleteTasks.appendChild(createNewTaskElement(data[i].name, data[i].description));
     };
+    
+    for (let i=0; i<incompleteTasks.children.length;i++){
+        bindTask(incompleteTasks.children[i],completed);
+    }
+    
+    for (let i=0; i<completedTasks.children.length;i++){
+        bindTask(completedTasks.children[i],incompleted);
+    }
 });
 
 //New task list item
@@ -107,9 +115,7 @@ let completed=function(){
 }
 
 let incompleted=function(){
-//Mark task as incomplete.
-    //When the checkbox is unchecked
-        //Append the task list item to the #incomplete-tasks.
+
     let listItem = this.parentNode;
     incompleteTasks.appendChild(listItem);
     bindTask(listItem, completed)
