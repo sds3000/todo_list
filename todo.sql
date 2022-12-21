@@ -3,8 +3,7 @@ DROP TABLE IF EXISTS task;
 CREATE TABLE task(
     id SERIAL PRIMARY KEY NOT NULL,
     name TEXT,
-    description TEXT,
-    list_id INTEGER
+    description TEXT
 );
 
 -- DROP TABLE IF EXISTS category;

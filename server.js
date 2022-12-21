@@ -35,8 +35,8 @@ app.delete('/deletedTask', (req, res) => {
 
 app.post('/task', (req, res) => {
     let task = req.body; // how to get req.body to = new-task
-    let {name} = task
-    sql`INSERT INTO task(name) VALUES(${name}) RETURNING *`.then((result) => {
+    let {name, description} = task
+    sql`INSERT INTO task(name, description) VALUES(${name}, ${description}) RETURNING *`.then((result) => {
         res.send(result[0]) 
     })
     
